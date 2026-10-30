@@ -26,13 +26,30 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Enable CORS for frontend development
+# Configure CORS for Vercel production frontend and local development
+ALLOWED_ORIGINS = [
+    "https://defect-intelligence-system.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+
+# Allow additional origins from environment if configured
+env_cors = os.getenv("CORS_ORIGINS", "")
+if env_cors:
+    ALLOWED_ORIGINS.extend([origin.strip() for origin in env_cors.split(",") if origin.strip()])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_origin_regex=r"https://defect-intelligence-system.*\.vercel\.app",
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With", "Range"],
+    expose_headers=["Content-Disposition", "Content-Length", "Content-Type"],
 )
 
 # Serve uploaded images and reports

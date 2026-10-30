@@ -152,6 +152,18 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ onSelectInspection }) 
                     <span>Loading inspection history...</span>
                   </td>
                 </tr>
+              ) : error ? (
+                <tr>
+                  <td colSpan={8} className="px-5 py-8 text-center text-rose-700 bg-rose-50/50">
+                    <p className="font-semibold text-xs">{error}</p>
+                    <button
+                      onClick={fetchInspections}
+                      className="mt-2 px-3 py-1 rounded bg-rose-600 text-white text-xs font-semibold hover:bg-rose-700 cursor-pointer"
+                    >
+                      Retry
+                    </button>
+                  </td>
+                </tr>
               ) : inspections.length > 0 ? (
                 inspections.map((row) => (
                   <tr key={row.id} className="hover:bg-slate-50/80 transition font-medium">

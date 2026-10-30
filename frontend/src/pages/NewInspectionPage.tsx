@@ -12,7 +12,7 @@ import {
   Play,
   ArrowRight
 } from 'lucide-react';
-import { runInspection, getSamples } from '../api/client';
+import { runInspection, getSamples, resolveAssetUrl } from '../api/client';
 import { InspectionDetail, DemoSample } from '../types';
 
 interface NewInspectionPageProps {
@@ -91,11 +91,17 @@ export const NewInspectionPage: React.FC<NewInspectionPageProps> = ({
       setErrorMessage(null);
       setSelectedComponent(sample.component);
 
-      // Fetch sample good & defective images as blobs
+      // Fetch sample good & defective images as blobs from backend
       const [resGood, resDef] = await Promise.all([
-        fetch(sample.good_url),
-        fetch(sample.defective_url),
+        fetch(resolveAssetUrl(sample.good_url)),
+        fetch(resolveAssetUrl(sample.defective_url)),
       ]);
+
+      if (!resGood.ok || !resDef.ok) {
+        throw new Error(
+          `Unable to retrieve sample images from backend (${!resGood.ok ? resGood.status : resDef.status})`
+        );
+      }
 
       const blobGood = await resGood.blob();
       const blobDef = await resDef.blob();

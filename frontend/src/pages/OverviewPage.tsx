@@ -15,7 +15,7 @@ import {
 import { StatCard } from '../components/StatCard';
 import { ResultBadge } from '../components/DefectBadge';
 import { DashboardStats, InspectionSummary } from '../types';
-import { getDashboardStats, getReportDownloadUrl } from '../api/client';
+import { getDashboardStats, getReportDownloadUrl, API_BASE } from '../api/client';
 import {
   AreaChart,
   Area,
@@ -72,14 +72,26 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({
 
   if (error || !stats) {
     return (
-      <div className="rounded-xl border border-rose-200 bg-rose-50 p-6 text-center">
-        <p className="text-sm font-medium text-rose-800">{error || 'Failed to load telemetry'}</p>
-        <button
-          onClick={fetchStats}
-          className="mt-3 px-4 py-2 rounded bg-rose-600 text-white text-xs font-semibold hover:bg-rose-700"
-        >
-          Retry
-        </button>
+      <div className="rounded-2xl border border-rose-200 bg-rose-50/70 p-8 text-center max-w-2xl mx-auto space-y-4">
+        <div className="h-12 w-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto border border-rose-200">
+          <AlertTriangle size={24} />
+        </div>
+        <div className="space-y-1">
+          <h3 className="text-base font-bold text-rose-900">Unable to Fetch Dashboard Telemetry</h3>
+          <p className="text-xs text-rose-700 max-w-md mx-auto leading-relaxed">{error}</p>
+        </div>
+        <div className="text-[11px] font-mono text-slate-500 bg-white/80 p-2.5 rounded-lg border border-slate-200">
+          Target API Endpoint: <span className="text-blue-700 font-bold">{API_BASE}/dashboard/stats</span>
+        </div>
+        <div className="pt-2">
+          <button
+            onClick={fetchStats}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 shadow-sm transition cursor-pointer"
+          >
+            <RefreshCw size={14} />
+            <span>Retry Connection</span>
+          </button>
+        </div>
       </div>
     );
   }

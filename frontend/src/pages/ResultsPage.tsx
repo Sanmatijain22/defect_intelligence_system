@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { ResultBadge, SeverityBadge, CategoryTag } from '../components/DefectBadge';
 import { InspectionDetail } from '../types';
-import { getReportDownloadUrl, getExportUrl } from '../api/client';
+import { getReportDownloadUrl, getExportUrl, resolveAssetUrl } from '../api/client';
 
 interface ResultsPageProps {
   inspection: InspectionDetail;
@@ -236,7 +236,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
               </div>
               <div className="p-2 flex items-center justify-center flex-1 bg-black/40 min-h-[300px]">
                 <img
-                  src={inspection.reference_image_url}
+                  src={resolveAssetUrl(inspection.reference_image_url)}
                   alt="Reference Good Part"
                   className="max-h-72 max-w-full object-contain rounded"
                 />
@@ -253,7 +253,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
               </div>
               <div className="p-2 flex items-center justify-center flex-1 bg-black/40 min-h-[300px]">
                 <img
-                  src={inspection.inspection_image_url}
+                  src={resolveAssetUrl(inspection.inspection_image_url)}
                   alt="Inspected Part Raw"
                   className="max-h-72 max-w-full object-contain rounded"
                 />
@@ -270,7 +270,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
               </div>
               <div className="p-2 flex items-center justify-center flex-1 bg-black/40 min-h-[300px]">
                 <img
-                  src={inspection.difference_map_url}
+                  src={resolveAssetUrl(inspection.difference_map_url)}
                   alt="Difference Heatmap"
                   className="max-h-72 max-w-full object-contain rounded"
                 />
@@ -287,7 +287,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
               </div>
               <div className="p-2 flex items-center justify-center flex-1 bg-black/40 min-h-[300px]">
                 <img
-                  src={inspection.annotated_image_url}
+                  src={resolveAssetUrl(inspection.annotated_image_url)}
                   alt="Annotated Defects"
                   className="max-h-72 max-w-full object-contain rounded"
                 />
@@ -299,7 +299,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
         {activeTab === 'annotated' && (
           <div className="rounded-xl border border-slate-200 bg-slate-950 p-4 flex items-center justify-center min-h-[460px]">
             <img
-              src={inspection.annotated_image_url}
+              src={resolveAssetUrl(inspection.annotated_image_url)}
               alt="Annotated Defects Large"
               className="max-h-[500px] max-w-full object-contain rounded shadow-lg"
             />
@@ -309,7 +309,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
         {activeTab === 'difference' && (
           <div className="rounded-xl border border-slate-200 bg-slate-950 p-4 flex items-center justify-center min-h-[460px]">
             <img
-              src={inspection.difference_map_url}
+              src={resolveAssetUrl(inspection.difference_map_url)}
               alt="Difference Map Large"
               className="max-h-[500px] max-w-full object-contain rounded shadow-lg"
             />
